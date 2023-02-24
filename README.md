@@ -82,10 +82,9 @@
 | 1   | Velcro Battery Strap                                 |                                                    |
 | 1   | (opt) Battery Voltage Monitor / Alarm Buzzer         | For Flight Controller if not included.             |
 
-> Примечание 1: Передние двигатели должны быть не более 29 мм, способны создавать статическую тягу от 500 до 800 г и скорость тангажа ~ 20 м/с  с 5-дюймовым винтом.
-> Примечание 2: Хвостовой двигатель может иметь наружный диаметр 30 мм и более, способный создавать статическую тягу от 700 до 1000 г с 6-дюймовым винтом.
-
-> Примечание 3: Отсеки для сервоприводов предназначены для сервоприводов шириной до 26 мм, 17,5 мм от нижней части монтажных выступов до нижней части сервопривода, 32 мм от верхней части выходного вала до нижней части сервопривода, толщиной 12 мм. Подходит для большинства сервоприводов "Sub-Micro".
+> Примечание 1: Передние двигатели должны быть не более 29 мм, способны создавать статическую тягу от 500 до 800 г и скорость тангажа ~ 20 м/с  с 5-дюймовым винтом.  
+> Примечание 2: Хвостовой двигатель может иметь наружный диаметр 30 мм и более, способный создавать статическую тягу от 700 до 1000 г с 6-дюймовым винтом.  
+> Примечание 3: Отсеки для сервоприводов предназначены для сервоприводов шириной до 26 мм, 17,5 мм от нижней части монтажных выступов до нижней части сервопривода, 32 мм от верхней части выходного вала до нижней части сервопривода, толщиной 12 мм. Подходит для большинства сервоприводов "Sub-Micro".  
 
 
 # Рекомендации по печати деталей корпуса <a name="3dprinting-brief"></a>
@@ -137,9 +136,9 @@
 ## Параметры ArduPlane <a name="arduplane-parameters"></a>
 Параметры для mRo PixRacer Pro.  
 Основные настройки должны быть применимы к любому используемому полетному контроллеру, например, к Matek F405-WING или аналогичному, но потребуется некоторая адаптация.
-
+  
 mRo PixRacer Pro: [ArduPlane_MiniHawk_mRo_PixRacerPro.param](/cfg-Config/ArduPlane_MiniHawk_mRo_PixRacerPro.param)
-
+  
 Некоторые важные параметры:
 ```
 | Parameter,Value        | Notes                                                      |
@@ -294,25 +293,24 @@ mRo PixRacer Pro: [ArduPlane_MiniHawk_mRo_PixRacerPro.param](/cfg-Config/ArduPla
 | WP_RADIUS,40           | 40 meter waypoint radius typical                           |
 ```
 
-
+  
 ## Примечания: <a name="arduplane-remarks"></a>
-Тестировалось на ArduPlane v4.1.0 and v4.2.0dev . 
-
+Тестировалось на ArduPlane v4.1.0 and v4.2.0dev.  
+  
 At this firmware version, there are some aspects of how VTOL flight behaviors are handled which are somewhat counter-intuitive. The most annoying of these is that for both piloted and autonomous flying, there is no direct control of the VTOL flight state. Instead of being able to directly command the Forward-Flight condition, the VTOL state-machine requires an airspeed estimate (either synthetic or measured from a pitot probe) to drive the forward VTOL transition to fixed-wing flight. This makes the human pilot merely a voting member in the transition process, with accumulated airspeed determining when the tilting rotors are allowed to fully tilt forward and the rear motor to halt. The developers' mentality treats the hover condition as the default fallback, and any failure to accumulate airspeed in a certain amount of time will have the process revert to hover as a failsafe via `Q_TRANS_FAIL`. If this transition failure timeout is disabled, the AirspeedWait state will persist and the vehicle will fly in a half-way blend between tricopter and fixed-wing flight indefinitely. For a vehicle design such the MiniHawk-VTOL, over-powered and very fast, it would make more sense for a timeout to result in forcing forward-flight rather than to place the vehicle in this blended behavior, or if using the transition failure timer, to place the vehicle into hover with limited battery at extreme range and altitude, but that is a pull request for another day. And thus, for the current firmware state, it is necessary to be aware of this behavior and to know why it gets stuck in the blended mode.
-
+  
 Другим последствием поведения вертикального взлета и посадки вперед является то, что при снятии с охраны, даже если выбор режима полета вперед (например, FBWA) приведет к наклону винтов в положение вперед, после постановки на охрану машина немедленно перейдет в состояние AirspeedWait. при этом передние роторы наклоняются вверх, а задний ротор вращается вверх. Настройка дроссельной заслонки, по-видимому, определяет сочетание между зависанием и ожиданием скорости полета вперед, но лучшее решение, если вы пытаетесь запустить самолет вручную, как традиционный неподвижный крыло, — это «натолкнуться» на РУЧНОЙ режим на мгновение. Это вынуждает конечный автомат вертикального взлета и посадки выйти из состояния AirspeedWait и позволяет вам активировать режим FWBA и оставить передние роторы в переднем положении, а также насладиться стабилизацией и выравниванием элевонов при ручном запуске. Просто не забудьте переключиться из РУЧНОГО режима обратно в FBWA, если только вы не собираетесь полностью РУЧНОЙ ручной запуск без стабилизации или выравнивания.
-
+  
 Переходы от горизонтального полета к зависанию, как правило, плавные, когда им управляет человек, но в автономных режимах существует известная проблема, при которой аппарат наклоняется носом, а затем резко подтягивается при переходе в зависание. Это может быть опасно для аппарата, если отрицательная сила ускорения или внезапный рывок вызовут разделение деталей. Проблема, скорее всего, в параметрах настройки TECS или в прошивке 4.1 или 4.2
+  
+  
+  
+  
+  
+  
 
-
-
-
-
-
-
-
+  
 # License <a name="license-brief"></a>
-This work is licensed under the [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-nc-sa/4.0/)
+This work is licensed under the [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-nc-sa/4.0/)  
 The Ardupilot and Betaflight  is licensed under the GPL-3.0.  
-MiniHawk VTOL - Design, Documentation, Images and all other Artwork; by Steve Carlson
-[MiniHawk VTOL - Design, Documentation, Images and all other Artwork; by Steve Carlson](https://github.com/StephenCarlson/MiniHawk-VTOL)
+[MiniHawk VTOL - Design, Documentation, Images and all other Artwork; by Steve Carlson](https://github.com/StephenCarlson/MiniHawk-VTOL)  
