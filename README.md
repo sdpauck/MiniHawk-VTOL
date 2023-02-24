@@ -140,7 +140,7 @@
 
 mRo PixRacer Pro: [ArduPlane_MiniHawk_mRo_PixRacerPro.param](/cfg-Config/ArduPlane_MiniHawk_mRo_PixRacerPro.param)
 
-While the parameters file above has over 1100 parameters, some essential parameters are examined below:
+Некоторые важные параметры:
 ```
 | Parameter,Value        | Notes                                                      |
 | ---------------------- | ---------------------------------------------------------- |
@@ -295,20 +295,24 @@ While the parameters file above has over 1100 parameters, some essential paramet
 ```
 
 
-## Remarks: <a name="arduplane-remarks"></a>
-ArduPlane v4.1.0 and v4.2.0dev were used in the development of the Version 2 MiniHawk-VTOL. "Out-of-the-box", ArduPlane has support for a Tricopter Tiltrotor such as this design, and only the parameters need to be set for enabling the VTOL behaviors. 
+## Примечания: <a name="arduplane-remarks"></a>
+Тестировалось на ArduPlane v4.1.0 and v4.2.0dev . 
 
 At this firmware version, there are some aspects of how VTOL flight behaviors are handled which are somewhat counter-intuitive. The most annoying of these is that for both piloted and autonomous flying, there is no direct control of the VTOL flight state. Instead of being able to directly command the Forward-Flight condition, the VTOL state-machine requires an airspeed estimate (either synthetic or measured from a pitot probe) to drive the forward VTOL transition to fixed-wing flight. This makes the human pilot merely a voting member in the transition process, with accumulated airspeed determining when the tilting rotors are allowed to fully tilt forward and the rear motor to halt. The developers' mentality treats the hover condition as the default fallback, and any failure to accumulate airspeed in a certain amount of time will have the process revert to hover as a failsafe via `Q_TRANS_FAIL`. If this transition failure timeout is disabled, the AirspeedWait state will persist and the vehicle will fly in a half-way blend between tricopter and fixed-wing flight indefinitely. For a vehicle design such the MiniHawk-VTOL, over-powered and very fast, it would make more sense for a timeout to result in forcing forward-flight rather than to place the vehicle in this blended behavior, or if using the transition failure timer, to place the vehicle into hover with limited battery at extreme range and altitude, but that is a pull request for another day. And thus, for the current firmware state, it is necessary to be aware of this behavior and to know why it gets stuck in the blended mode.
 
-Another consequence of the forward-transition VTOL behavior is that while disarmed, even though a forward-flight mode selection (such as FBWA) will result in the rotors tilting to the forward position, upon arming, the vehicle will immediately assume the AirspeedWait state, with the front rotors tilting up and the rear rotor spinning up. The throttle setting apparently determines the mix between hovering and forward-flight airspeed wait, but a better solution if you are trying to hand-launch like a traditional fixed-wing is to "bump" into MANUAL mode for a moment. This forces the VTOL state-machine past the AirspeedWait state and allows you to Arm in FWBA mode and have the forward rotors remain in the forward position and also enjoy elevon stabilization and leveling while hand-launching. Just be sure to flip out of MANUAL mode back to FBWA, unless you intend a fully MANUAL hand-launch with no stabilization or leveling.
+Другим последствием поведения вертикального взлета и посадки вперед является то, что при снятии с охраны, даже если выбор режима полета вперед (например, FBWA) приведет к наклону винтов в положение вперед, после постановки на охрану машина немедленно перейдет в состояние AirspeedWait. при этом передние роторы наклоняются вверх, а задний ротор вращается вверх. Настройка дроссельной заслонки, по-видимому, определяет сочетание между зависанием и ожиданием скорости полета вперед, но лучшее решение, если вы пытаетесь запустить самолет вручную, как традиционный неподвижный крыло, — это «натолкнуться» на РУЧНОЙ режим на мгновение. Это вынуждает конечный автомат вертикального взлета и посадки выйти из состояния AirspeedWait и позволяет вам активировать режим FWBA и оставить передние роторы в переднем положении, а также насладиться стабилизацией и выравниванием элевонов при ручном запуске. Просто не забудьте переключиться из РУЧНОГО режима обратно в FBWA, если только вы не собираетесь полностью РУЧНОЙ ручной запуск без стабилизации или выравнивания.
 
-Transitions from Fixed-Wing flight to hover are typically smooth when being human-piloted, but in autonomous modes, there is a known issue in which the vehicle will nose-dip and then pull up hard when making the reverse VTOL transition to hover. This can be hazardous to the vehicle if negative gee-loading or sudden jerk movement will cause parts to separate. The issue is likely in the TECS tuning parameters, or is an issue local to firmware 4.1 or 4.2.
+Переходы от горизонтального полета к зависанию, как правило, плавные, когда им управляет человек, но в автономных режимах существует известная проблема, при которой аппарат наклоняется носом, а затем резко подтягивается при переходе в зависание. Это может быть опасно для аппарата, если отрицательная сила ускорения или внезапный рывок вызовут разделение деталей. Проблема, скорее всего, в параметрах настройки TECS или в прошивке 4.1 или 4.2
+
+
+
+
+
+
 
 
 # License <a name="license-brief"></a>
-This work is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/4.0/ or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.  
-
-The Ardupilot and Betaflight software configuration text files provided here likely fall under GPL-3.0; both projects are licensed under GPL-3.0 at the time of this writing.  
-
-MiniHawk VTOL - Design, Documentation, Images and all other Artwork; by Steve Carlson  
-[https://github.com/StephenCarlson/MiniHawk-VTOL](https://github.com/StephenCarlson/MiniHawk-VTOL)
+This work is licensed under the [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-nc-sa/4.0/)
+The Ardupilot and Betaflight  is licensed under the GPL-3.0.  
+MiniHawk VTOL - Design, Documentation, Images and all other Artwork; by Steve Carlson
+[MiniHawk VTOL - Design, Documentation, Images and all other Artwork; by Steve Carlson](https://github.com/StephenCarlson/MiniHawk-VTOL)
