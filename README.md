@@ -3,7 +3,7 @@
 
 > - [Инструкции по сборке](https://github.com/StephenCarlson/MiniHawk-VTOL/tree/development#build-sequence-)
 > - [Документация](https://github.com/StephenCarlson/MiniHawk-VTOL/tree/development/doc-Documentation)
-> - [Аналогичная модель для RealFlight](https://github.com/sdpauck/MiniHawk-VTOL/sim-Convergence_Tilt_Tri_QuadPlane)
+> - [Аналогичная модель для RealFlight](https://github.com/sdpauck/MiniHawk-VTOL/tree/master/sim-Convergence_Tilt_Tri_QuadPlane)
 > - Видео [Сборка распечатанных деталей](https://www.youtube.com/watch?v=nICNlJhoEvw)
 > - Видео [Взлёт - переход - полёт - переход - посадка](https://www.youtube.com/watch?v=mDxm1YLxNSA)
 > - Плэйлист [Другие видео по теме](https://www.youtube.com/watch?v=4NjTIWN3P_c&list=PLEMjH2uELUcYI_DS1zthgjE4Su79LeA_G)
